@@ -35,57 +35,6 @@ local brookhavenTab = Window:MakeTab({
     PremiumOnly = false
 })
 
-mainTab:AddToggle({
-    Name = "Highlight Players (doesn't work good)",
-    Default = false,
-    Callback = function(val)
-        local players = game:GetService('Players')
-
-        if val == false then
-            isHighlighting = false
-
-            for _, v in pairs(workspace:GetChildren())do
-                if v:FindFirstChild("Humanoid") then
-                    if v:FindFirstChild("Highlight") then
-                        v.Highlight:Destroy()
-                    end
-                end
-            end
-
-            for _, p in pairs(players:GetPlayers()) do
-                if p.Character:FindFirstChild("Highlight") then
-                    p.Character.Highlight:Destroy()
-                end
-            end
-
-        elseif val == true and not isHighlighting then
-            isHighlighting = true
-
-            while isHighlighting do
-                wait(1)
-
-                if isHighlighting == false then
-                    break
-                end
-
-                for _, v in pairs(workspace:GetChildren()) do
-                    if v:FindFirstChild("Humanoid") then
-                        if not v:FindFirstChild("Highlight") then
-                            Instance.new("Highlight", v)
-                        end
-                    end
-                end
-
-                for _, p in pairs(players:GetPlayers()) do
-                    if not p.Character:FindFirstChild("Highlight") then
-                        Instance.new("Highlight", p.Character)
-                    end
-                end
-            end
-        end
-    end
-})
-
 mainTab:AddButton({
     Name = "Fling All (game must have player collision)",
     Callback = function()
