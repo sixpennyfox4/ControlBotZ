@@ -86,6 +86,13 @@ mainTab:AddToggle({
     end
 })
 
+mainTab:AddButton({
+    Name = "Fling All (game must have player collision)",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/zqyDSUWX"))()
+    end
+})
+
 mainTab:AddTextbox({
     Name = "Teleport To Player",
     TextDisappear = true,
@@ -109,7 +116,7 @@ mainTab:AddTextbox({
 mainTab:AddSlider({
     Name = "Jump Height",
     Min = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower,
-    Max = 10000,
+    Max = 1000,
     Default = 50,
     Increasment = 1,
     ValueName = "jump power",
@@ -121,7 +128,7 @@ mainTab:AddSlider({
 mainTab:AddSlider({
     Name = "Walkspeed",
     Min = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed,
-    Max = 10000,
+    Max = 1000,
     Default = 16,
     Increasment = 1,
     ValueName = "speed",
