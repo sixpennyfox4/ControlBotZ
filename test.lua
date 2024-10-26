@@ -1,7 +1,6 @@
 local module = {}
 
-function module.TestFunc(msg)
-    print(msg)
-end
+module.LocalPLR = game.Players.LocalPlayer
+module.CurrentWalkSpeed = module.LocalPLR.Character.Humanoid.WalkSpeed
 
 return module
