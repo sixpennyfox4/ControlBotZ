@@ -11,7 +11,7 @@ function module.CurrentWalkSpeed()
     if localhum then
 
         return {
-            
+
             Value = localhum.WalkSpeed,
             Change = function(newSpeed)
                 if newSpeed >= 0 then
@@ -24,6 +24,8 @@ function module.CurrentWalkSpeed()
         }
 
     end
+
+    return nil
 end
 
 return module
