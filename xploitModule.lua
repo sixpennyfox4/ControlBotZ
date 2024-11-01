@@ -181,7 +181,7 @@ function module.BypassText(text: string, method: number)
 end
 
 function module.GetExecLevel()
-    return printidentity()
+    return printidentity() or "unknown"
 end
 
 function module.GetExecutor()
