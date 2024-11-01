@@ -7,17 +7,6 @@ local currentHealth = localhum.Health
 
 function module.BypassText(text: string, method: number)
     if method == 1 then
-        local function modifyText(input)
-            local modifiedText = ""
-            for i = 1, #input do
-                modifiedText = modifiedText .. string.sub(input, i, i) .. ">"
-            end
-
-            return modifiedText
-        end
-
-        return modifyText(text)
-    elseif method == 2 then
         local function addAccents(word)
             local accents = {
                 a = "ǎ",
@@ -45,23 +34,49 @@ function module.BypassText(text: string, method: number)
                 w = "ẃ",
                 x = "x́",
                 y = "ý",
-                z = "ź"
+                z = "ź",
+                A = "Ǎ",
+                B = "Ḃ",
+                C = "Ć",
+                D = "D́",
+                E = "Ě",
+                F = "Ḟ",
+                G = "Ġ",
+                H = "Ḣ",
+                I = "Í",
+                J = "J́",
+                K = "Ḱ",
+                L = "Ĺ",
+                M = "Ḿ",
+                N = "N̋",
+                O = "Ō",
+                P = "Ṕ",
+                Q = "Q́",
+                R = "Ŕ",
+                S = "Ś",
+                T = "T̋",
+                U = "Ū",
+                V = "V̇",
+                W = "Ẃ",
+                X = "X́",
+                Y = "Ý",
+                Z = "Ź"
             }
 
-            local minifiedWord = ""
+            local bypassedWord = ""
             for i = 1, #word do
-                local letter = word:sub(i, i):lower()
+                local letter = word:sub(i, i)
                 if accents[letter] then
-                    minifiedWord = minifiedWord .. accents[letter]
+                    bypassedWord = bypassedWord .. accents[letter]
                 else
-                    minifiedWord = minifiedWord .. letter
+                    bypassedWord = bypassedWord .. letter
                 end
             end
 
-            return minifiedWord
+            return bypassedWord
         end
 
-        local function minifyString(input)
+        local function bypassString(input)
             local words = {}
             for word in string.gmatch(input, "%S+") do
                 table.insert(words, addAccents(word))
@@ -69,10 +84,104 @@ function module.BypassText(text: string, method: number)
             return table.concat(words, " ")
         end
 
-        return minifyString(text)
+        return bypassString(text)
+    elseif method == 2 then
+        local function addAccents2(word)
+            local accents2 = {
+                a = "ạ̲",
+                b = "ḅ̲",
+                c = "с̲",
+                d = "ḍ̲",
+                e = "ẹ̲",
+                f = "f̲",
+                g = "ɡ̲",
+                h = "ḥ̲",
+                i = "ị̲",
+                j = "ј̲",
+                k = "ḳ̲",
+                l = "ḷ̲",
+                m = "ṃ̲",
+                n = "ṇ̲",
+                o = "ọ̲",
+                p = "р̲",
+                q = "q̲",
+                r = "ṛ̲",
+                s = "ṣ̲",
+                t = "ṭ̲",
+                u = "ụ̲",
+                v = "ṿ̲",
+                w = "ẉ̲",
+                x = "х̲",
+                y = "ỵ̲",
+                z = "ẓ̲",
+                A = "Ạ̲",
+                B = "Ḅ̲",
+                C = "С̲",
+                D = "Ḍ̲",
+                E = "Ẹ̲",
+                F = "F̲",
+                G = "Ɡ̲",
+                H = "Ḥ̲",
+                I = "Ị̲",
+                J = "Ј̲",
+                K = "Ḳ̲",
+                L = "Ḷ̲",
+                M = "Ṃ̲",
+                N = "Ṇ̲",
+                O = "Ọ̲",
+                P = "Р̲",
+                Q = "Q̲",
+                R = "Ṛ̲",
+                S = "Ṣ̲",
+                T = "Ṭ̲",
+                U = "Ụ̲",
+                V = "Ṿ̲",
+                W = "Ẉ̲",
+                X = "Х̲",
+                Y = "Ỵ̲",
+                Z = "Ẓ̲"
+            }
+
+            local bypassedWord = ""
+            for i = 1, #word do
+                local letter = word:sub(i, i)
+                if accents2[letter] then
+                    bypassedWord = bypassedWord .. accents2[letter]
+                else
+                    bypassedWord = bypassedWord .. letter
+                end
+            end
+
+            return bypassedWord
+        end
+
+        local function bypassString(input)
+            local words = {}
+            for word in string.gmatch(input, "%S+") do
+                table.insert(words, addAccents2(word))
+            end
+            return table.concat(words, " ")
+        end
+
+        return bypassString(text)
+    elseif method == 3 then
+        local function modifyText(input)
+            local modifiedText = ""
+            for i = 1, #input do
+                modifiedText = modifiedText .. string.sub(input, i, i) .. ">"
+            end
+
+            return modifiedText
+        end
+
+        return modifyText(text)
     else
         warn("xploitModule: Bypass method not found!")
     end
+end
+
+function module.GetExecLevel()
+    return printidentity()
 end
 
 function module.GetExecutor()
@@ -86,10 +195,10 @@ function module.Player()
         Humanoid = localhum,
 
         Kill = function()
-            if localhum then
+            if localhum and localhum.Health > 0 then
                 localhum.Health = 0
             else
-                warn("xploitModule: Humanoid not found!")
+                warn("xploitModule: Humanoid not found or humanoid health is under or equal to 0!")
             end
         end,
 
@@ -186,6 +295,14 @@ function module.Player()
 
         RejoinServer = function()
             game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, localplr)
+        end,
+
+        Kick = function(reason: string)
+            if reason then
+                localplr:Kick(reason)
+            else
+                localplr:Kick()
+            end
         end,
 
         Chat = function(msg: string)
