@@ -1,0 +1,65 @@
+rejoin
+jump
+reset
+sit
+chat (message)
+shutdown
+orbit (username) (speed)
+unorbit
+bang (username) (speed)
+unbang
+walkto (username)
+speed (number)
+bring
+clearchat
+privacymode (enable/disable)
+spin (number)
+unspin
+lineup (direction)
+3drender (enable/disable)
+dance (emote)
+fling (username)
+unfling
+follow (username)
+unfollow
+lookat (username)
+unlookat
+stack (username)
+unstack
+quit
+goto (username)
+carpet (username)
+uncarpet
+linefollow (username)
+unlinefollow
+riz (username)
+facebang (username) (speed)
+unfbang
+announce (message)
+rocket (height)
+antibang
+2orbit (username)
+surround (username) (spacing)
+partsrain (username) (height)
+unpartsrain
+hug (username)
+unhug
+worm (username)
+unworm
+index
+logchat (enable/disable)
+4k (username)
+whitelist+ (username)
+whitelist- (username)
+admin+ (username)
+admin- (username)
+jork (speed)
+unjork
+frontflip
+backflip
+freeze
+unfreeze
+antiafk (enable/disable)
+version
+botremove (index)
+printcmds
