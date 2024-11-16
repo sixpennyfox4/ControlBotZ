@@ -63,3 +63,4 @@ antiafk (enable/disable)
 version
 botremove (index)
 printcmds
+scm
