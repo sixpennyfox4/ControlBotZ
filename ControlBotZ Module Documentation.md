@@ -43,11 +43,11 @@ function mainFunction(player, message)
   end
 end
 ```
-Now if the message is 'test' every bot will chat 'YEYYYYYYYY'.
+Now if the message is '.test' every bot will chat 'YEYYYYYYYY'.
 I recommend doing this at the start of the function:
 ```lua
 function mainFunction(player, message)
-  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name)
+  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) then
     return
   end
 
@@ -61,11 +61,10 @@ This will stop the function if the player doesnt have right permission to use co
 How to get args? Ik you wont just make simple commands that dont need args. So here is how to get args:
 ```lua
 function mainFunction(player, message)
-  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name)
+  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) then
     return
   end
-  local args = botz:GetArgs(message) -- Get the args from the message (ControlBotZ Used worse method BRUH)
-
+  local args = botz:GetArgs(message) -- Get the args from the message 
   if args[1] == botz.Prefix .. "test" then
     botz:Chat("You said: " .. args[2])
   end
@@ -76,10 +75,10 @@ Now if you chat '.test hello' the bots will chat 'You said: hello'.
 Now lets say you dont want all the bots to do something. Well i got you:
 ```lua
 function mainFunction(player, message)
-  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name)
+  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) then
     return
   end
-  local args = botz:GetArgs(message) -- Get the args from the message (ControlBotZ Used worse method BRUH)
+  local args = botz:GetArgs(message) -- Get the args from the message
 
   if args[1] == botz.Prefix .. "test" then
     botz:firstBotDo(function()
@@ -92,11 +91,10 @@ end
 Now lets say you run the script on the Controller acc too. To make it not run on account that isnt a bot we can do this:
 ```lua
 function mainFunction(player, message)
-  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() -- So if local player isnt a bot
+  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() then -- So if local player isnt a bot
     return
   end
-  local args = botz:GetArgs(message) -- Get the args from the message (ControlBotZ Used worse method BRUH)
-
+  local args = botz:GetArgs(message) -- Get the args from the message 
   if args[1] == botz.Prefix .. "test" then
     botz:firstBotDo(function()
       botz:Chat("You said: " .. args[2]) -- Only the first bot will do this
@@ -109,11 +107,10 @@ Now if we run it on Controller acc it wont continue the script.
 Now you would want to specify specific bots to run command when chatted. Its very simple:
 ```lua
 function mainFunction(player, message)
-  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() -- So if local player isnt a bot
+  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() then -- So if local player isnt a bot
     return
   end
-  local args = botz:GetArgs(message) -- Get the args from the message (ControlBotZ Used worse method BRUH)
-
+  local args = botz:GetArgs(message) -- Get the args from the message 
   if args[1] == botz.Prefix .. "test" then
     function codeNoShit()
       botz:Chat("You said: " .. args[2])
@@ -128,11 +125,10 @@ If we chat '.test' all bots will chat but we can now specify bots by typing '.te
 Now you would want to make some commands owner and admin only so whitelisted players wont be able to use them:
 ```lua
 function mainFunction(player, message)
-  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() -- So if local player isnt a bot
+  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() then -- So if local player isnt a bot
     return
   end
-  local args = botz:GetArgs(message) -- Get the args from the message (ControlBotZ Used worse method BRUH)
-
+  local args = botz:GetArgs(message) -- Get the args from the message 
   if args[1] == botz.Prefix .. "deletesystem32" then
     if not botz:isOwnerOrAdmin(player.Name) then -- Stop the command if player is not owner or admin so whitelisted players cant use it
       return
@@ -152,11 +148,10 @@ Now if you dont specify arguaments it will just return true or false.
 Now there is a thing to make your life easier. You wouldnt want to type full player name right? Thats why you can do this:
 ```lua
 function mainFunction(player, message)
-  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() -- So if local player isnt a bot
+  if not botz:isWhitelisted(player.Name) and not botz:isOwnerOrAdmin(player.Name) and not botz:IsABot() then -- So if local player isnt a bot
     return
   end
-  local args = botz:GetArgs(message) -- Get the args from the message (ControlBotZ Used worse method BRUH)
-
+  local args = botz:GetArgs(message) -- Get the args from the message 
   if args[1] == botz.Prefix .. "whatsthename" then
     local targetName = botz:getFullPlayerName(args[2])
 
