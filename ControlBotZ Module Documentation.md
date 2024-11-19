@@ -9,7 +9,7 @@ Then you will need to set things like prefix, username etc:
 ```lua
 botz.Username = "" -- Username here
 botz.Prefix = "."
-botz.Bots = {"bot1", "bot2"} -- Just example, change them with the read bots display names
+botz.Bots = {"bot1", "bot2"} -- Just example, change them with the real bots display names
 ```
 
 Now lets get into the functionality.
