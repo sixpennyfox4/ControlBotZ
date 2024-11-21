@@ -175,6 +175,85 @@ function module.BypassText(text: string, method: number)
         end
 
         return modifyText(text)
+    elseif method == 4 then
+        local function addAccents2(word)
+            local accents2 = {
+                a = "ạ",
+                b = "ḃ",
+                c = "c",
+                d = "d́",
+                e = "e",
+                f = "ḟ",
+                g = "ġ",
+                h = "ḣ",
+                i = "i",
+                j = "j́",
+                k = "ḳ",
+                l = "ĺ",
+                m = "m",
+                n = "n̋",
+                o = "o",
+                p = "ṕ",
+                q = "q́",
+                r = "ŕ",
+                s = "ṣ",
+                t = "t",
+                u = "ụ",
+                v = "v̇",
+                w = "ẃ",
+                x = "x́",
+                y = "y",
+                z = "z",
+                A = "Ạ",
+                B = "Ḃ",
+                C = "C",
+                D = "D́",
+                E = "E",
+                F = "Ḟ",
+                G = "Ġ",
+                H = "Ḣ",
+                I = "I",
+                J = "J́",
+                K = "Ḱ",
+                L = "Ĺ",
+                M = "M",
+                N = "N",
+                O = "O",
+                P = "Ṕ",
+                Q = "Q́",
+                R = "Ŕ",
+                S = "Ṣ",
+                T = "T",
+                U = "Ụ",
+                V = "V̇",
+                W = "Ẃ",
+                X = "X́",
+                Y = "Y",
+                Z = "Z"
+            }
+
+            local bypassedWord = ""
+            for i = 1, #word do
+                local letter = word:sub(i, i)
+                if accents2[letter] then
+                    bypassedWord = bypassedWord .. accents2[letter]
+                else
+                    bypassedWord = bypassedWord .. letter
+                end
+            end
+
+            return bypassedWord
+        end
+
+        local function bypassString(input)
+            local words = {}
+            for word in string.gmatch(input, "%S+") do
+                table.insert(words, addAccents2(word))
+            end
+            return table.concat(words, " ")
+        end
+
+        return bypassString(text)
     else
         warn("xploitModule: Bypass method not found!")
     end
