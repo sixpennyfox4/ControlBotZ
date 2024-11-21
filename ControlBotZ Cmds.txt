@@ -64,3 +64,5 @@ version
 botremove (index)
 printcmds
 scm
+2stack (username)
+fpscap (number)
