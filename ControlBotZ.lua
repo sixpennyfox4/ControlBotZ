@@ -15,6 +15,7 @@ local LocalPLR = game.Players.LocalPlayer
 
 Username = getgenv().Username
 
+local runScript = true
 if LocalPLR.Name ~= Username then
 
     local logChat = getgenv().logChat
@@ -59,7 +60,7 @@ if LocalPLR.Name ~= Username then
     })
 
     local latestVersion = request({ Url = "https://raw.githubusercontent.com/sixpennyfox4/rbx/refs/heads/main/ControlBotZ%20Version", Method = "GET" }).Body:match("^%s*(.-)%s*$")
-    if latestVersion ~= "1.1.0" then
+    if latestVersion ~= "1.1.1" then
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Old Version!",
             Text = "Looks like you are using old version. Get the newest one from the discord server!",
@@ -726,6 +727,42 @@ if LocalPLR.Name ~= Username then
             specifyBots2(args, 2, runCode)
         end
 
+        -- LINEORBIT:
+        if msg:sub(1, 10) == Prefix .. "lineorbit" then
+
+            local args = getArgs(message:sub(12))
+            local targetPLR = getFullPlayerName(args[1])
+
+            local player = game.Players[targetPLR].Character.HumanoidRootPart
+            local lpr = LocalPLR.Character.HumanoidRootPart
+
+            local speed = tonumber(args[2]) or 8
+            local radius = 8
+            local spacing = 1
+            local eclipse = 1
+
+            local rotspeed = math.pi*2/speed
+            eclipse = eclipse * radius
+
+            local rot = 0
+
+            function runCode()
+                workspace.Gravity = 0
+
+                lineorbitF = game:GetService('RunService').Stepped:connect(function(t, dt)
+                    rot = rot + dt * rotspeed
+
+                    local offset = Vector3.new(0, 0, index * spacing) 
+                    local newPosition = player.Position + offset
+
+
+                    lpr.CFrame = CFrame.new(newPosition, player.Position)
+                end)
+            end
+
+            specifyBots2(args, 2, runCode)
+        end
+
         if msg:sub(1, 8) == Prefix .. "unorbit" then
 
             function runCode()
@@ -736,6 +773,11 @@ if LocalPLR.Name ~= Username then
 
                 if orbit2 then
                     orbit2:Disconnect()
+                    workspace.Gravity = normalGravity
+                end
+
+                if lineorbitF then
+                    lineorbitF:Disconnect()
                     workspace.Gravity = normalGravity
                 end
             end
@@ -1107,10 +1149,57 @@ if LocalPLR.Name ~= Username then
 
         end
 
+        -- 2STACK:
+        if msg:sub(1, 7) == Prefix .. "2stack" then
+            local args = getArgs(message:sub(9))
+
+            local targetPLR = getFullPlayerName(args[1])
+            local botInfront
+
+            for i, bot in pairs(bots) do
+                if i == index - 1 then
+                    botInfront = bot
+                end
+            end
+
+            function runCode()
+                if game.Players[targetPLR].Character:FindFirstChild("HumanoidRootPart") then
+                    workspace.Gravity = 0
+
+                    local stackHeight = 3
+                    local offset = (index - 1) * stackHeight
+
+                    stackF2 = RunService.Heartbeat:Connect(function()
+
+                        if LocalPLR.Character.Humanoid.Sit == false then
+                            LocalPLR.Character.Humanoid.Sit = true
+                        end
+
+                        if index == 1 then
+                            LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[targetPLR].Character.Head.CFrame * CFrame.new(0, offset, 0)
+                        else
+                            LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[botInfront].Character.Head.CFrame * CFrame.new(0, 1.5, 0)
+                        end
+
+                    end)
+                end
+            end
+
+            specifyBots2(args, 2, runCode)
+
+        end
+
         if msg:sub(1, 8) == Prefix .. "unstack" then
 
             function runCode()
-                stackF:Disconnect();
+                if stackF then
+                    stackF:Disconnect()
+                end
+
+                if stackF2 then
+                    stackF2:Disconnect()
+                end
+
                 LocalPLR.Character.Humanoid.Sit = false
 
                 workspace.Gravity = normalGravity
@@ -1360,10 +1449,10 @@ if LocalPLR.Name ~= Username then
         if msg == Prefix .. "version" then
 
             if index == 1 then
-                if latestVersion ~= "1.1.0" then
-                    chat("Running V1.1.0 (old)")
+                if latestVersion ~= "1.1.1" then
+                    chat("Running V1.1.1 (old)")
                 else
-                    chat("Running V1.1.0")
+                    chat("Running V1.1.1")
                 end
             end
 
@@ -1572,6 +1661,30 @@ if LocalPLR.Name ~= Username then
 
         -- SETTING COMMANDS --
 
+        if msg:sub(1, 7) == Prefix .. "fpscap" then
+
+            if player.Name ~= Username and not isAdmin(player.Name) then
+                return
+            end
+            local args = getArgs(msg:sub(9))
+
+            if not tonumber(args[1]) then
+                if index == 1 then
+                    chat("Please specific number.")
+                end
+
+                return
+            end
+
+            function runCode()
+                setfpscap(tonumber(args[1]))
+
+                chat("Fps cap has been set to " .. args[1] .. " on bot " .. index .. "!")
+            end
+
+            specifyBots2(args, 2, runCode)
+        end
+
         -- 3DRENDERING:
         if msg:sub(1, 9) == Prefix .. "3drender" then
 
@@ -1696,7 +1809,10 @@ if LocalPLR.Name ~= Username then
                     chat("surround (username) (spacing), partsrain (username) (height)/unpartsrain, hug (username)/unhug, worm (username)/unworm, index, logchat (enable/disable), 4k (username), whitelist+ (username)/")
                     wait(0.2)
 
-                    chat("whitelist- (username), admin+ (username)/admin- (username), jork (speed)/unjork, frontflip/backflip, freeze/unfreeze, antiafk (enable/disable), version, botremove (index), printcmds, scm")
+                    chat("whitelist- (username), admin+ (username)/admin- (username), jork (speed)/unjork, frontflip/backflip, freeze/unfreeze, antiafk (enable/disable), version, botremove (index), printcmds, scm, fpscap (num)")
+                    wait(0.2)
+
+                    chat("2stack (username)")
                 else
                     chat("Please select a page 1 or 2!")
                 end
@@ -1707,6 +1823,10 @@ if LocalPLR.Name ~= Username then
     end
 
     for _, player in pairs(game.Players:GetPlayers()) do
+        if not runScript then
+            return
+        end
+
         player.Chatted:Connect(function(message)
             commands(player, message)
 
@@ -1717,6 +1837,10 @@ if LocalPLR.Name ~= Username then
     end
 
     game.Players.PlayerAdded:Connect(function(player)
+        if not runScript then
+            return
+        end
+
         player.Chatted:Connect(function(message)
             commands(player, message)
 
@@ -1727,6 +1851,10 @@ if LocalPLR.Name ~= Username then
     end)
 
     game.Players.PlayerRemoving:Connect(function(player)
+        if not runScript then
+            return
+        end
+
         for i, bot in pairs(bots) do
             if player.Name == bot then
                 table.remove(bots, i)
