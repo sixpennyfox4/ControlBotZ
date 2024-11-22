@@ -1670,7 +1670,7 @@ if LocalPLR.Name ~= Username then
 
             if not tonumber(args[1]) then
                 if index == 1 then
-                    chat("Please specific number.")
+                    chat("Please specify number.")
                 end
 
                 return
