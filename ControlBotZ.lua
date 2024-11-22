@@ -1823,11 +1823,11 @@ if LocalPLR.Name ~= Username then
     end
 
     for _, player in pairs(game.Players:GetPlayers()) do
-        if not runScript then
-            return
-        end
-
         player.Chatted:Connect(function(message)
+            if not runScript then
+                return
+            end
+
             commands(player, message)
 
             if logChat then
@@ -1837,11 +1837,11 @@ if LocalPLR.Name ~= Username then
     end
 
     game.Players.PlayerAdded:Connect(function(player)
-        if not runScript then
-            return
-        end
-
         player.Chatted:Connect(function(message)
+            if not runScript then
+                return
+            end
+
             commands(player, message)
 
             if logChat then
