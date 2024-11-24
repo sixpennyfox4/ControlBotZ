@@ -5,7 +5,7 @@ local localhum = localplr.Character:FindFirstChild("Humanoid")
 
 local currentHealth = localhum.Health
 
-function module.BypassText(text: string, method: number)
+function module.bypassText(text: string, method: number)
     if method == 1 then
         local function addAccents(word)
             local accents = {
@@ -88,96 +88,6 @@ function module.BypassText(text: string, method: number)
     elseif method == 2 then
         local function addAccents2(word)
             local accents2 = {
-                a = "ạ̲",
-                b = "ḅ̲",
-                c = "с̲",
-                d = "ḍ̲",
-                e = "ẹ̲",
-                f = "f̲",
-                g = "ɡ̲",
-                h = "ḥ̲",
-                i = "ị̲",
-                j = "ј̲",
-                k = "ḳ̲",
-                l = "ḷ̲",
-                m = "ṃ̲",
-                n = "ṇ̲",
-                o = "ọ̲",
-                p = "р̲",
-                q = "q̲",
-                r = "ṛ̲",
-                s = "ṣ̲",
-                t = "ṭ̲",
-                u = "ụ̲",
-                v = "ṿ̲",
-                w = "ẉ̲",
-                x = "х̲",
-                y = "ỵ̲",
-                z = "ẓ̲",
-                A = "Ạ̲",
-                B = "Ḅ̲",
-                C = "С̲",
-                D = "Ḍ̲",
-                E = "Ẹ̲",
-                F = "F̲",
-                G = "Ɡ̲",
-                H = "Ḥ̲",
-                I = "Ị̲",
-                J = "Ј̲",
-                K = "Ḳ̲",
-                L = "Ḷ̲",
-                M = "Ṃ̲",
-                N = "Ṇ̲",
-                O = "Ọ̲",
-                P = "Р̲",
-                Q = "Q̲",
-                R = "Ṛ̲",
-                S = "Ṣ̲",
-                T = "Ṭ̲",
-                U = "Ụ̲",
-                V = "Ṿ̲",
-                W = "Ẉ̲",
-                X = "Х̲",
-                Y = "Ỵ̲",
-                Z = "Ẓ̲"
-            }
-
-            local bypassedWord = ""
-            for i = 1, #word do
-                local letter = word:sub(i, i)
-                if accents2[letter] then
-                    bypassedWord = bypassedWord .. accents2[letter]
-                else
-                    bypassedWord = bypassedWord .. letter
-                end
-            end
-
-            return bypassedWord
-        end
-
-        local function bypassString(input)
-            local words = {}
-            for word in string.gmatch(input, "%S+") do
-                table.insert(words, addAccents2(word))
-            end
-            return table.concat(words, " ")
-        end
-
-        return bypassString(text)
-    elseif method == 3 then
-        local function modifyText(input)
-            local modifiedText = ""
-            for i = 1, #input do
-                modifiedText = modifiedText .. string.sub(input, i, i) .. ">"
-            end
-
-            return modifiedText
-        end
-
-        return modifyText(text)
-    elseif method == 4 then
-        local function addAccents2(word)
-            local accents2 = {
                 a = "ạ",
                 b = "ḃ",
                 c = "c",
@@ -249,6 +159,228 @@ function module.BypassText(text: string, method: number)
             local words = {}
             for word in string.gmatch(input, "%S+") do
                 table.insert(words, addAccents2(word))
+            end
+            return table.concat(words, " ")
+        end
+
+        return bypassString(text)
+    elseif method == 3 then
+        local function addAccents3(word)
+            local accents3 = {
+                a = "ạ̲",
+                b = "ḅ̲",
+                c = "с̲",
+                d = "ḍ̲",
+                e = "ẹ̲",
+                f = "f̲",
+                g = "ɡ̲",
+                h = "ḥ̲",
+                i = "ị̲",
+                j = "ј̲",
+                k = "ḳ̲",
+                l = "ḷ̲",
+                m = "ṃ̲",
+                n = "ṇ̲",
+                o = "ọ̲",
+                p = "р̲",
+                q = "q̲",
+                r = "ṛ̲",
+                s = "ṣ̲",
+                t = "ṭ̲",
+                u = "ụ̲",
+                v = "ṿ̲",
+                w = "ẉ̲",
+                x = "х̲",
+                y = "ỵ̲",
+                z = "ẓ̲",
+                A = "Ạ̲",
+                B = "Ḅ̲",
+                C = "С̲",
+                D = "Ḍ̲",
+                E = "Ẹ̲",
+                F = "F̲",
+                G = "Ɡ̲",
+                H = "Ḥ̲",
+                I = "Ị̲",
+                J = "Ј̲",
+                K = "Ḳ̲",
+                L = "Ḷ̲",
+                M = "Ṃ̲",
+                N = "Ṇ̲",
+                O = "Ọ̲",
+                P = "Р̲",
+                Q = "Q̲",
+                R = "Ṛ̲",
+                S = "Ṣ̲",
+                T = "Ṭ̲",
+                U = "Ụ̲",
+                V = "Ṿ̲",
+                W = "Ẉ̲",
+                X = "Х̲",
+                Y = "Ỵ̲",
+                Z = "Ẓ̲"
+            }
+
+            local bypassedWord = ""
+            for i = 1, #word do
+                local letter = word:sub(i, i)
+                if accents3[letter] then
+                    bypassedWord = bypassedWord .. accents3[letter]
+                else
+                    bypassedWord = bypassedWord .. letter
+                end
+            end
+
+            return bypassedWord
+        end
+
+        local function bypassString(input)
+            local words = {}
+            for word in string.gmatch(input, "%S+") do
+                table.insert(words, addAccents3(word))
+            end
+            return table.concat(words, " ")
+        end
+
+        return bypassString(text)
+    elseif method == 4 then
+        local function modifyText(input)
+            local modifiedText = ""
+            for i = 1, #input do
+                modifiedText = modifiedText .. string.sub(input, i, i) .. ">"
+            end
+
+            return modifiedText
+        end
+
+        return modifyText(text)
+    elseif method == 5 then
+        local function addAccents5(word)
+            local accents5 = {
+                a = "a",
+                b = "b￵￵",
+                c = "c￵￵",
+                d = "d",
+                e = "￵￵e",
+                f = "￵￵󠀕f￵￵",
+                g = "g",
+                h = "h￵￵",
+                i = "￵￵i",
+                j = "￵￵j￵￵",
+                k = "k",
+                l = "l￵￵",
+                m = "m",
+                n = "n",
+                o = "o￵￵",
+                p = "p",
+                q = "q￵￵",
+                r = "￵￵r￵￵",
+                s = "￵￵s",
+                t = "￵￵t￵￵",
+                u = "u",
+                v = "v",
+                w = "w",
+                x = "x",
+                y = "y",
+                z = "￵￵z￵￵󠀕",
+                A = "A￵￵󠀕",
+                B = "B",
+                C = "C",
+                D = "￵￵D",
+                E = "￵￵E￵￵󠀕",
+                F = "F￵￵",
+                G = "￵￵G",
+                H = "H",
+                I = "￵￵I",
+                J = "￵￵J",
+                K = "K",
+                L = "￵￵L",
+                M = "M￵￵",
+                N = "N￵￵",
+                O = "O",
+                P = "P￵￵",
+                Q = "Q",
+                R = "￵￵R",
+                S = "S",
+                T = "T",
+                U = "￵￵U",
+                V = "V",
+                W = "W￵￵",
+                X = "￵￵X",
+                Y = "￵￵Y",
+                Z = "Z￵￵󠀕"
+            }
+
+            local bypassedWord = ""
+            for i = 1, #word do
+                local letter = word:sub(i, i)
+                if accents5[letter] then
+                    bypassedWord = bypassedWord .. accents5[letter]
+                else
+                    bypassedWord = bypassedWord .. letter
+                end
+            end
+
+            return bypassedWord
+        end
+
+        local function bypassString(input)
+            local words = {}
+            for word in string.gmatch(input, "%S+") do
+                table.insert(words, addAccents5(word))
+            end
+            return table.concat(words, "")
+        end
+
+        return bypassString(text)
+    elseif method == 6 then
+        local function addAccents6(word)
+            local accents6 = {
+                a = "/-\\",
+                b = "L3",
+                c = "C",
+                d = "CL",
+                e = "3",
+                f = "F",
+                g = "G",
+                h = "|-|",
+                i = "L",
+                j = "J",
+                k = "L<",
+                l = "|_",
+                m = "/\\/\\",
+                n = "/\\/",
+                o = "0",
+                p = "P",
+                q = "Q",
+                r = "R",
+                s = "$",
+                t = "T",
+                u = "|_|",
+                v = "\\/",
+                w = "\\/\\/",
+                x = "><",
+                y = "Y",
+                z = "Z"
+            }
+
+            local bypassedWord = ""
+            for i = 1, #word do
+                local letter = word:sub(i, i):lower()
+                if accents6[letter] then
+                    bypassedWord = bypassedWord .. accents6[letter]
+                else
+                    bypassedWord = bypassedWord .. letter
+                end
+            end
+
+            return bypassedWord
+        end
+
+        local function bypassString(input)
+            local words = {}
+            for word in string.gmatch(input, "%S+") do
+                table.insert(words, addAccents6(word))
             end
             return table.concat(words, " ")
         end
