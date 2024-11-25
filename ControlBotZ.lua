@@ -60,7 +60,7 @@ if LocalPLR.Name ~= Username then
     })
 
     local latestVersion = request({ Url = "https://raw.githubusercontent.com/sixpennyfox4/rbx/refs/heads/main/ControlBotZ%20Version", Method = "GET" }).Body:match("^%s*(.-)%s*$")
-    if latestVersion ~= "1.1.1" then
+    if latestVersion ~= "1.1.2" then
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Old Version!",
             Text = "Looks like you are using old version. Get the newest one from the discord server!",
@@ -471,6 +471,19 @@ if LocalPLR.Name ~= Username then
 
             function runCode()
                 LocalPLR.Character.Humanoid.WalkSpeed = args[1]
+            end
+
+            specifyBots2(args, 2, runCode)
+
+        end
+
+        if msg:sub(1, 8) == Prefix .. "gravity" then
+            local args = getArgs(msg:sub(10))
+
+            function runCode()
+                if tonumber(args[1]) then
+                    workspace.Gravity = tonumber(args[1])
+                end
             end
 
             specifyBots2(args, 2, runCode)
@@ -1331,6 +1344,48 @@ if LocalPLR.Name ~= Username then
 
         end
 
+        -- 2BANG:
+        if msg:sub(1, 6) == Prefix .. "2bang" then
+
+            local args = getArgs(message:sub(8))
+            local targetPLR = getFullPlayerName(args[1])
+
+            local bangSpeed = tonumber(args[2]) or 10
+            local botInfront
+
+            for i, bot in pairs(bots) do
+                if i == index - 1 then
+                    botInfront = bot
+                end
+            end
+
+            function runCode()
+                if game.Players[targetPLR] then
+
+                    bangAnim3 = Instance.new('Animation')
+                    bangAnim3.AnimationId = "rbxassetid://" .. isR15(5918726674, 148840371)
+                    plrHum3 = LocalPLR.Character.Humanoid
+
+                    anim3 = plrHum3:LoadAnimation(bangAnim3)
+                    anim3:Play()
+                    anim3:AdjustSpeed(bangSpeed)
+
+                    bangLoop2 = RunService.Stepped:Connect(function()
+                        wait()
+                        if index == 1 then
+                            LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1.1)
+                        else
+                            LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[botInfront].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1.1)
+                        end
+                    end)
+                end
+
+            end
+
+            specifyBots2(args, 3, runCode)
+
+        end
+
         -- FACEBANG:
         if msg:sub(1, 9) == Prefix .. "facebang" then
 
@@ -1375,6 +1430,14 @@ if LocalPLR.Name ~= Username then
                 end
                 if bangLoop then
                     bangLoop:Disconnect()
+                end
+
+                if anim3 then
+                    anim3:Stop()
+                    bangAnim3:Destroy()
+                end
+                if bangLoop2 then
+                    bangLoop2:Disconnect()
                 end
             end
 
@@ -1449,10 +1512,10 @@ if LocalPLR.Name ~= Username then
         if msg == Prefix .. "version" then
 
             if index == 1 then
-                if latestVersion ~= "1.1.1" then
-                    chat("Running V1.1.1 (old)")
+                if latestVersion ~= "1.1.2" then
+                    chat("Running V1.1.2 (old)")
                 else
-                    chat("Running V1.1.1")
+                    chat("Running V1.1.2")
                 end
             end
 
@@ -1608,6 +1671,127 @@ if LocalPLR.Name ~= Username then
 
             specifyBots(msg:sub(7), runCode)
 
+        end
+
+        -- FULLBOX:
+        if msg:sub(1, 8) == Prefix .. "fullbox" then
+            if #bots < 4 then
+                if index == 1 then
+                    chat("You need minimum of 4 bots to use this command!")
+                end
+
+                return
+            end
+
+            if index > 6 then
+                return
+            end
+            workspace.Gravity = 0
+
+            local args = getArgs(message:sub(10))
+            local targetPLR = getFullPlayerName(args[1])
+
+            if index == 4 then
+                carpetAnim2 = Instance.new("Animation")
+                carpetAnim2.AnimationId = "rbxassetid://282574440"
+                carpet2 = LocalPLR.Character.Humanoid:LoadAnimation(carpetAnim2)
+                carpet2:Play(0.1, 1, 1)
+            end
+
+            if index == 3 then
+                carpetAnim3 = Instance.new("Animation")
+                carpetAnim3.AnimationId = "rbxassetid://282574440"
+                carpet3 = LocalPLR.Character.Humanoid:LoadAnimation(carpetAnim3)
+                carpet3:Play(0.1, 1, 1)
+            end
+
+            fullboxF = RunService.Heartbeat:Connect(function(deltaTime)
+                if index == 1 then
+                    LocalPLR.Character.HumanoidRootPart.CFrame = CFrame.lookAt((game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -1)).Position, game.Players[targetPLR].Character.HumanoidRootPart.Position)
+                end
+                if index == 2 then
+                    LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1.1)
+                end
+                if index == 3 then
+                    LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, -1, 0)
+                end
+                if index == 4 then
+                    LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0)
+                end
+                if index == 5 then
+                    LocalPLR.Character.HumanoidRootPart.CFrame = CFrame.lookAt((game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(2, 0, 0)).Position, game.Players[targetPLR].Character.HumanoidRootPart.Position)
+                end
+                if index == 6 then
+                    LocalPLR.Character.HumanoidRootPart.CFrame = CFrame.lookAt((game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(-2, 0, 0)).Position, game.Players[targetPLR].Character.HumanoidRootPart.Position)
+                end
+            end)
+        end
+
+        if msg:sub(1, 10) == Prefix .. "unfullbox" then
+            if carpetAnim2 then
+                carpet2:Stop()
+                carpetAnim2:Destroy()
+            end
+
+            if carpetAnim3 then
+                carpet3:Stop()
+                carpetAnim3:Destroy()
+            end
+
+            if fullboxF then
+                fullboxF:Disconnect()
+            end
+
+            workspace.Gravity = normalGravity
+        end
+
+        -- STAIRS:
+        if msg:sub(1, 7) == Prefix .. "stairs" then
+
+            local args = getArgs(message:sub(9))
+            local targetPLR = getFullPlayerName(args[1])
+            local botInfront
+
+            for i, bot in pairs(bots) do
+                if i == index - 1 then
+                    botInfront = bot
+                end
+            end
+
+            workspace.Gravity = 0
+            LocalPLR.Character.Humanoid.Sit = true
+            if index == 1 then
+                LocalPLR.Character.HumanoidRootPart.CFrame = CFrame.lookAt((game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)).Position, game.Players[targetPLR].Character.HumanoidRootPart.Position)
+
+                wait(0.5)
+
+                for _, child in pairs(LocalPLR.Character:GetChildren()) do
+                    if child:IsA("BasePart") then
+                        child.Anchored = true
+                    end
+                end
+            else
+                stairsF = RunService.Heartbeat:Connect(function(deltaTime)
+                    LocalPLR.Character.HumanoidRootPart.CFrame = CFrame.new((game.Players[botInfront].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)).Position, game.Players[botInfront].Character.HumanoidRootPart.Position) * CFrame.new(0, 2, 0)
+                end)
+            end
+        end
+
+        if msg == Prefix .. "unstairs" then
+            if stairsF then
+                stairsF:Disconnect()
+            end
+
+            if index == 1 then
+                for _, child in pairs(LocalPLR.Character:GetChildren()) do
+                    if child:IsA("BasePart") then
+                        child.Anchored = false
+                    end
+                end
+            end
+
+            LocalPLR.Character.Humanoid.Sit = false
+            workspace.Gravity = normalGravity
         end
 
         -- DANCE (THANKS TO @bloxi199 FOR HELPING):
@@ -1812,7 +1996,7 @@ if LocalPLR.Name ~= Username then
                     chat("whitelist- (username), admin+ (username)/admin- (username), jork (speed)/unjork, frontflip/backflip, freeze/unfreeze, antiafk (enable/disable), version, botremove (index), printcmds, scm, fpscap (num)")
                     wait(0.2)
 
-                    chat("2stack (username)")
+                    chat("2stack (username), 2bang (username), fullbox (username), stairs (username), gravity (number)")
                 else
                     chat("Please select a page 1 or 2!")
                 end
