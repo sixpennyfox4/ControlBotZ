@@ -66,3 +66,7 @@ printcmds
 scm
 2stack (username)
 fpscap (number)
+2bang (username)
+fullbox (username)
+stairs (username)
+gravity (number)
