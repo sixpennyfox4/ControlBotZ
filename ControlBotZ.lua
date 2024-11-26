@@ -1105,7 +1105,7 @@ if LocalPLR.Name ~= Username then
         if msg:sub(1, 5) == Prefix .. "spin" then
             local args = getArgs(msg:sub(7))
 
-            local spinSpeed = args[1]
+            local spinSpeed = tonumber(args[1]) or 10
 
             function runCode()
                 local Spin = Instance.new("BodyAngularVelocity")
