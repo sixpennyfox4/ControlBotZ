@@ -660,7 +660,7 @@ if LocalPLR.Name ~= Username then
             }
 
             function runCode()
-                chat(loadstring(game:HttpGet("https://raw.githubusercontent.com/sixpennyfox4/rbx/refs/heads/main/xploitModule.lua"))().BypassText(scamLines[math.random(1, #scamLines)], 1))
+                chat(loadstring(game:HttpGet("https://raw.githubusercontent.com/sixpennyfox4/rbx/refs/heads/main/xploitModule.lua"))().bypassText(scamLines[math.random(1, #scamLines)], 1))
             end
 
             specifyBots(msg:sub(6), runCode)
@@ -1421,6 +1421,45 @@ if LocalPLR.Name ~= Username then
 
         end
 
+        -- 2FACEBANG:
+        if msg:sub(1, 10) == Prefix .. "2facebang" then
+
+            local args = getArgs(message:sub(12))
+            local targetPLR = getFullPlayerName(args[1])
+
+            local bangSpeed = tonumber(args[2]) or 10
+            local bangOffet = CFrame.new(0, 2.3, -1.1)
+
+            function runCode()
+                if game.Players[targetPLR] then
+
+                    bangAnim3 = Instance.new('Animation')
+                    bangAnim3.AnimationId = "rbxassetid://" .. isR15(5918726674, 148840371)
+                    plrHum = LocalPLR.Character.Humanoid
+
+                    anim3 = plrHum:LoadAnimation(bangAnim3)
+                    anim3:Play(0.1, 1, 1)
+                    anim3:AdjustSpeed(bangSpeed)
+
+                    facebangLoop2 = RunService.Stepped:Connect(function()
+                        wait()
+
+                        local targetRoot = LocalPLR.Character:FindFirstChild("HumanoidRootPart")
+                        if index == 1 then
+                            targetRoot.CFrame = game.Players[targetPLR].Character:FindFirstChild("HumanoidRootPart").CFrame * bangOffet * CFrame.Angles(0,3.15,0)
+                        else
+                            targetRoot.CFrame = game.Players[targetPLR].Character:FindFirstChild("HumanoidRootPart").CFrame * bangOffet * CFrame.Angles(0,3.15,0) * CFrame.new(0, 0, (index - 1))
+                        end
+                        targetRoot.Velocity = Vector3.new(0,0,0)
+                    end)
+
+                end
+            end
+
+            specifyBots2(args, 3, runCode)
+
+        end
+
         if msg:sub(1, 7) == Prefix .. "unbang" then
 
             function runCode()
@@ -1451,6 +1490,14 @@ if LocalPLR.Name ~= Username then
                 if anim2 then
                     anim2:Stop()
                     bangAnim2:Destroy()
+                end
+                if anim3 then
+                    anim3:Stop()
+                    bangAnim3:Destroy()
+                end
+
+                if facebangLoop2 then
+                    facebangLoop2:Disconnect()
                 end
                 if facebangLoop then
                     facebangLoop:Disconnect()
@@ -1996,7 +2043,7 @@ if LocalPLR.Name ~= Username then
                     chat("whitelist- (username), admin+ (username)/admin- (username), jork (speed)/unjork, frontflip/backflip, freeze/unfreeze, antiafk (enable/disable), version, botremove (index), printcmds, scm, fpscap (num)")
                     wait(0.2)
 
-                    chat("2stack (username), 2bang (username), fullbox (username), stairs (username), gravity (number)")
+                    chat("2stack (username)/unstack, 2bang (username)/unbang, fullbox (username)/unfullbox, stairs (username)/unstairs, gravity (number), 2facebang (username)/unfbang")
                 else
                     chat("Please select a page 1 or 2!")
                 end
