@@ -1669,12 +1669,14 @@ if LocalPLR.Name ~= Username then
 
         end
 
-        -- WINGS(yep under riz):
+        -- WINGS (yep under riz):
         if msg:sub(1, 6) == Prefix .. "wings" then
             if #bots < 2 then
                 if index == 1 then
                     chat("You need minimum of 2 bots to use this command!")
                 end
+
+                return
             end
 
             if index > 2 then
