@@ -71,3 +71,9 @@ fullbox (username)
 stairs (username)
 gravity (number)
 2facebang (username)
+wings (username)
+unwings
+bridge (username)
+unbridge
+copychat (username)
+uncopychat
