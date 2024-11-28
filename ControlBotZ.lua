@@ -16,6 +16,8 @@ local LocalPLR = game.Players.LocalPlayer
 Username = getgenv().Username
 
 local runScript = true
+local copychat = false
+local copychatUsername = ""
 if LocalPLR.Name ~= Username then
 
     local logChat = getgenv().logChat
@@ -60,7 +62,7 @@ if LocalPLR.Name ~= Username then
     })
 
     local latestVersion = request({ Url = "https://raw.githubusercontent.com/sixpennyfox4/rbx/refs/heads/main/ControlBotZ%20Version", Method = "GET" }).Body:match("^%s*(.-)%s*$")
-    if latestVersion ~= "1.1.2" then
+    if latestVersion ~= "1.1.3" then
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Old Version!",
             Text = "Looks like you are using old version. Get the newest one from the discord server!",
@@ -443,6 +445,42 @@ if LocalPLR.Name ~= Username then
             end
         end
 
+        -- COPYCHAT:
+        if msg:sub(1, 9) == Prefix .. "copychat" then
+
+            local args = getArgs(message:sub(11))
+            local targetPLR = getFullPlayerName(args[1])
+
+            function runCode()
+                if game.Players[targetPLR] then
+                    copychat = true
+                    copychatUsername = targetPLR
+
+                    if index == 1 then
+                        chat("Copying " .. targetPLR .. "'s chat!")
+                    end
+                end
+            end
+
+            specifyBots2(args, 2, runCode)
+
+        end
+
+        if msg:sub(1, 11) == Prefix .. "uncopychat" then
+
+            function runCode()
+                copychat = false
+                copychatUsername = ""
+
+                if index == 1 then
+                    chat("Stopped copying chat!")
+                end
+            end
+
+            specifyBots(msg:sub(13), runCode)
+
+        end
+
         -- CHAT:
         if msg:sub(1, 5) == Prefix .. "chat" then
 
@@ -677,7 +715,7 @@ if LocalPLR.Name ~= Username then
 
             local speed = tonumber(args[2]) or 8
             local radius = 8
-            local spacing = 1
+            local spacing = tonumber(args[3]) or 1
             local eclipse = 1
 
             local sin, cos = math.sin, math.cos
@@ -700,7 +738,7 @@ if LocalPLR.Name ~= Username then
                 end)
             end
 
-            specifyBots2(args, 3, runCode)
+            specifyBots2(args, 4, runCode)
         end
 
         -- 2ORBIT:
@@ -1559,10 +1597,10 @@ if LocalPLR.Name ~= Username then
         if msg == Prefix .. "version" then
 
             if index == 1 then
-                if latestVersion ~= "1.1.2" then
-                    chat("Running V1.1.2 (old)")
+                if latestVersion ~= "1.1.3" then
+                    chat("Running V1.1.3 (old)")
                 else
-                    chat("Running V1.1.2")
+                    chat("Running V1.1.3")
                 end
             end
 
@@ -1629,6 +1667,99 @@ if LocalPLR.Name ~= Username then
             rizzFollow:Disconnect()
             LocalPLR.Character.HumanoidRootPart.CFrame = originalCFrame
 
+        end
+
+        -- WINGS(yep under riz):
+        if msg:sub(1, 6) == Prefix .. "wings" then
+            if #bots < 2 then
+                if index == 1 then
+                    chat("You need minimum of 2 bots to use this command!")
+                end
+            end
+
+            if index > 2 then
+                return
+            end
+
+            local args = getArgs(message:sub(8))
+            local targetPLR = getFullPlayerName(args[1])
+
+            if game.Players[targetPLR] then
+                workspace.Gravity = 0
+                wingsF = RunService.Heartbeat:Connect(function(deltaTime)
+                    if index == 1 then
+                        LocalPLR.Character.HumanoidRootPart.CFrame = CFrame.lookAt((game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)).Position, game.Players[targetPLR].Character.HumanoidRootPart.Position) * CFrame.new(1, 0, 0) * CFrame.Angles(0, 0, 65)
+                    else
+                        LocalPLR.Character.HumanoidRootPart.CFrame = CFrame.lookAt((game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 1)).Position, game.Players[targetPLR].Character.HumanoidRootPart.Position) * CFrame.new(-1, 0, 0) * CFrame.Angles(0, 0, -65)
+                    end
+                end)
+            end
+
+        end
+
+        if msg == Prefix .. "unwings" then
+            if wingsF then
+                wingsF:Disconnect()
+            end
+
+            workspace.Gravity = normalGravity
+        end
+
+        -- BRIDGE:
+        if msg:sub(1, 7) == Prefix .. "bridge" then
+
+            local args = getArgs(message:sub(9))
+            local targetPLR = getFullPlayerName(args[1])
+            local botInfront
+
+            for i, bot in pairs(bots) do
+                if i == index - 1 then
+                    botInfront = bot
+                end
+            end
+
+            carpetAnim4 = Instance.new("Animation")
+            carpetAnim4.AnimationId = "rbxassetid://282574440"
+            carpet4 = LocalPLR.Character.Humanoid:LoadAnimation(carpetAnim4)
+            carpet4:Play(0.1, 1, 1)
+
+            workspace.Gravity = 0
+            if index == 1 then
+                LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[targetPLR].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
+
+                wait(0.5)
+                for _, child in pairs(LocalPLR.Character:GetChildren()) do
+                    if child:IsA("BasePart") then
+                        child.Anchored = true
+                    end
+                end
+            else
+                bridgeF = RunService.Heartbeat:Connect(function(deltaTime)
+                    LocalPLR.Character.HumanoidRootPart.CFrame = game.Players[botInfront].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -(index + 1.5))
+                end)
+            end
+
+        end
+
+        if msg == Prefix .. "unbridge" then
+            if index == 1 then
+                for _, child in pairs(LocalPLR.Character:GetChildren()) do
+                    if child:IsA("BasePart") then
+                        child.Anchored = false
+                    end
+                end
+            end
+
+            if carpetAnim4 then
+                carpet4:Stop()
+                carpetAnim4:Destroy()
+            end
+
+            if bridgeF then
+                bridgeF:Disconnect()
+            end
+
+            workspace.Gravity = normalGravity
         end
 
         -- CARPET:
@@ -2043,9 +2174,11 @@ if LocalPLR.Name ~= Username then
                     chat("whitelist- (username), admin+ (username)/admin- (username), jork (speed)/unjork, frontflip/backflip, freeze/unfreeze, antiafk (enable/disable), version, botremove (index), printcmds, scm, fpscap (num)")
                     wait(0.2)
 
-                    chat("2stack (username)/unstack, 2bang (username)/unbang, fullbox (username)/unfullbox, stairs (username)/unstairs, gravity (number), 2facebang (username)/unfbang")
+                    chat("2stack (username)/unstack, 2bang (username)/unbang, fullbox (username)/unfullbox, stairs (username)/unstairs, gravity (number), 2facebang (username)/unfbang, wings (username)/unwings,bridge (username)")
+                elseif page == "3" then
+                    chat("unbridge, copychat (username)/uncopychat")
                 else
-                    chat("Please select a page 1 or 2!")
+                    chat("Please select a page 1, 2 or 3!")
                 end
             end
 
@@ -2064,6 +2197,9 @@ if LocalPLR.Name ~= Username then
             if logChat then
                 sendToWebhook("```" .. message .. "```", player.Name)
             end
+            if copychat and player.Name == copychatUsername then
+                chat(message)
+            end
         end)
     end
 
@@ -2077,6 +2213,9 @@ if LocalPLR.Name ~= Username then
 
             if logChat then
                 sendToWebhook("```" .. message .. "```", player.Name)
+            end
+            if copychat and player.Name == copychatUsername then
+                chat(message)
             end
         end)
     end)
