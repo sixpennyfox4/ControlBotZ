@@ -2,7 +2,7 @@ So you wanted to make your own bot control script huh? Well here you will learn 
 
 We start with this first:
 ```lua
-local botz = loadstring(game:HttpGet("https://raw.githubusercontent.com/sixpennyfox4/rbx-scripts/refs/heads/main/ControlBotZ%20Module"))()
+local botz = loadstring(game:HttpGet("https://raw.githubusercontent.com/sixpennyfox4/ControlBotZ/refs/heads/main/ControlBotZ%20Module.lua"))()
 ```
 
 Then you will need to set things like prefix, username etc:
