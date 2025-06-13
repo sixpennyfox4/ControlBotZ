@@ -76,3 +76,5 @@ bridge (username)
 unbridge
 copychat (username)
 uncopychat
+robot (username)
+unrobot
